@@ -1,4 +1,4 @@
-a{
+    a{
     text-decoration: none;
 }
 
@@ -95,6 +95,7 @@ a{
     }
     .responsive_nav {
 		transform: translateY(100vh);
+        z-index: 1;
 	}
     .nav-close-btn {
 		position: absolute;

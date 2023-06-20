@@ -1,0 +1,93 @@
+.app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  background-color: white;
+  color: black;
+  transition: background-color 0.5s ease, color 1s ease; /* Slow transition */
+  margin-bottom: 75px;
+}
+.text{
+  font-size: xx-large;
+  padding-left: 13px;
+  font-weight: 600;
+  font-family: 'inter';
+  margin-left: 20px;
+}
+.light-mode {
+  background-color: white;
+  color: black;
+}
+
+.night-mode {
+  background-color: rgb(21, 19, 19);
+  color: white;
+}
+
+.content {
+  text-align: center;
+}
+
+.content button {
+  height: 60px;
+  width:60px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: transparent;
+  color: inherit;
+  border: 1px solid;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 0 transparent;
+  transition: box-shadow 0.5s ease;
+  display: inline-flex;
+  
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+
+
+.rounded-btn:hover {
+  animation: buttonShadowAnim 5s infinite linear;
+}
+
+/* black shadow animation area */
+@keyframes buttonShadowAnim {
+  0% {
+    box-shadow: 0 0 0 transparent;
+  }
+  50% {
+    box-shadow: 0 0 150px 75px rgba(0, 0, 0, 100); /* Darker shadow */
+  }
+  100% {
+    box-shadow: 0 0 0 transparent;
+  }
+}
+
+/* animation speed controls */
+.night-mode button:hover {
+  animation: buttonShadowAnim 5s infinite linear, buttonWhiteShadowAnim 5s infinite linear;
+}
+
+/* white shadow animation area */
+@keyframes buttonWhiteShadowAnim {
+  0% {
+    box-shadow: 0 0 0 white;
+  }
+  50% {
+    box-shadow: 0 0 150px 75px white;
+  }
+  100% {
+    box-shadow: 0 0 0 white;
+  }
+}
+
+@media (max-width:600px){
+  .app{
+    margin-bottom: 20px;
+  }
+}

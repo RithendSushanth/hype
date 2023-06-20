@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Roboto:wght@300&family=Source+Code+Pro:wght@300&family=Teko:wght@300&display=swap');
+
+.container-newin{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   justify-content: space-evenly;
+   flex-wrap:wrap;
+   width: 100%;
+   /* border: 1px solid black; */
+   margin-top: 15px;
+}
+.image img{
+   border-radius: 55px;
+}
+.pricing{
+   display: flex;
+   font-family: 'inter';
+    font-size: 15px;
+    line-height: 16px;
+}
+
+.price{
+   padding-left: 180px;
+   font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 15px;
+    line-height: 16px;
+}
+
+.wishlist-buttons{
+   display: flex;
+   align-items: center;
+   padding-right: 163px;
+}
+.opt{
+   border: 1px solid #000;
+   width: 86px;
+   height: 22px;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 8px;
+   line-height: 12px;
+   display: flex;
+   align-items: center;
+   text-align: center;
+   color: #000000;
+   justify-content: center;
+ }
+ .wishlist{
+   padding-left: 20px;
+    width: 20px;
+    height: 20px;
+}
+.des{
+   width: 329px;
+   height: 37px;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 700;
+   font-size: 20px;
+   line-height: 24px;
+   color: #000000;
+}
+
+.carousel-cards{
+   display:flex;
+   flex-direction:row;
+   flex-wrap:wrap;
+   justify-content: space-evenly;
+   align-items:center;
+}
+
+@media(max-width:1200px){
+   .image img{
+      width: 70%;
+   }
+   .image{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+   }
+   .des{
+      text-align: center;
+      width: 329px;
+      height: 37px;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 13px;
+      line-height: 24px;
+      color: #000000;
+   }
+   .price{
+      padding-left: 150px;
+   }
+}

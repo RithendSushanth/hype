@@ -1,5 +1,5 @@
 import React from "react";
-import "./Footer.css";
+import "../CSS FILES/Footer.css";
 
 const Footer = () => {
   return (
@@ -18,7 +18,7 @@ const Footer = () => {
           </pre>
         </div>
         <div className="categories">
-          <h6 className="footer-heading">Header Text</h6>
+          <h6 className="footer-heading">Categories</h6>
           <ul className="footer-links">
             <li>
               <a className="content-footer" href="/">&gt; Anime</a>
@@ -34,29 +34,13 @@ const Footer = () => {
               </a>
             </li>
             <li>
-              <a className="content-footer" href="/">
-              &gt; Psychedelic
-              </a>
-            </li>
-            <li>
               <a className="content-footer" href="/">&gt; Series</a>
-            </li>
-            <li>
-              <a className="content-footer" href="/">&gt; Demigods</a>
             </li>
           </ul>
         </div>
         <div className="column-for-content">
           <h6 className="footer-heading">Header Text</h6>
           <ul className="footer-links">
-            <li>
-              <a className="content-icon-footer" href="/">&gt; button</a>
-            </li>
-            <li>
-              <a className="content-icon-footer" href="/">
-              &gt; button
-              </a>
-            </li>
             <li>
               <a className="content-icon-footer" href="/">
               &gt; button
@@ -77,9 +61,9 @@ const Footer = () => {
         </div>
       </div>
       <hr className="footer-lining"/>
-      <div className="footer-end">
-        <div className="end-logo">HYPE</div>
-        <div className="end-button">button</div>
+      <div className="footer-end"> 
+      <div className="footer-logo">HYPE</div>
+        <div className="end-logo"><button>Button</button></div>
       </div>
     </>
   );

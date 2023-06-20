@@ -1,0 +1,27 @@
+.prop img{
+    width: 350px;
+}
+.prop{
+    border: 1px solid black;
+}
+.aval{
+    font-size: 15px;
+}
+
+.cat{
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.category-card-text{
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@media (max-width:600px){
+    .prop img{
+        width: 200px;
+    }
+}

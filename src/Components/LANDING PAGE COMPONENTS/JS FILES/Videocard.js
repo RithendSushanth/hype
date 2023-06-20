@@ -1,6 +1,6 @@
 import React from "react";
-import "./videocard.css";
-import video from './model.mp4';
+import "../CSS FILES/videocard.css";
+import video from '../VIDEOS/model.mp4';
 
 export default function Videocard() {
   return (

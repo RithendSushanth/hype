@@ -1,7 +1,11 @@
 import React from "react";
 import { useRef } from "react";
 import {FaBars, FaTimes} from "react-icons/fa";
-import "./Navbar.css";
+import "../CSS FILES/Navbar.css";
+import logo from '../IMAGES/HYPE.png'
+import searchicon from '../IMAGES/search.png'
+import carticon from '../IMAGES/cart.png'
+import usericon from '../IMAGES/user.png'
 
 const Navbar = () => {
   const navref = useRef();
@@ -12,7 +16,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="navbar">
+      <div className="navbar ">
         <div className="options" ref={navref}>
           <a className="buttons" href="/">
             MENS
@@ -31,17 +35,17 @@ const Navbar = () => {
           <FaBars/>
         </button>
         <div className="logo">
-          <img src={require("./HYPE.png")} alt="HYPE" />
+          <img src={logo} alt="HYPE" />
         </div>
         <div className="icons">
           <a href="/">
-            <img src={require("./search.png")} alt="HYPE" />
+            <img src={searchicon} alt="HYPE" />
           </a>
           <a href="/">
-            <img src={require("./cart.png")} alt="HYPE" />
+            <img src={carticon} alt="HYPE" />
           </a>
           <a href="/">
-            <img src={require("./user.png")} alt="HYPE" />
+            <img src={usericon} alt="HYPE" />
           </a>
         </div>
       </div>

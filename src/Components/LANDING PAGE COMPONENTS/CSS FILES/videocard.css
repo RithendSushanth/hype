@@ -4,6 +4,7 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        margin-top: 75px;
       }
       
       .video-text {
@@ -18,7 +19,7 @@
       }
       
       .video-card {
-        width: 70%;
+        width: 85%;
         max-height: 70%;
         margin: 20px;
         padding: 20px;
@@ -31,3 +32,14 @@
         object-fit: cover;
         /* border-radius:5%; */
       } 
+
+@media(max-width:600px){
+  .video-container{
+    width: 100%;
+    margin-top: 0px;
+  }
+  .video-card{
+    margin-top: 10px;
+    padding: 0px;
+  }
+}

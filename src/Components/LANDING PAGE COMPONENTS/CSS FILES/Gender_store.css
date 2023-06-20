@@ -1,0 +1,106 @@
+
+
+.gender_shop{
+    display:flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 75px;
+}
+
+.mens{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.womens{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.img img{
+    width: 447px;
+    height: 542px;
+    margin-bottom: 30px;
+}
+/* .img img{
+    height: 400px;
+    width: 300px;
+    padding-top: 20px;
+} */
+
+.btn-gender{
+    background-color: #d9d9d9;
+    width: 309px;
+    height: 68px;
+    margin-top: 5px;
+    font-size: 36px;
+    border-radius: 5px;
+    font-weight: 700;
+    font-style: normal;
+    font-family: 'Inter';
+    border: none;
+}
+.btn-gender:hover{
+    background-color: rgb(212, 212, 212);
+    cursor: pointer;
+}
+
+
+@media (max-width: 900px) {
+    .img img {
+        width: 287px;
+        height: 398px;
+        margin-bottom: 30px;
+    }
+    .btn-gender {
+        background-color: #d9d9d9;
+        width: 202px;
+        height: 52px;
+        margin-top: 5px;
+        font-size: 22px;
+        border-radius: 5px;
+        font-weight: 700;
+        font-style: normal;
+        font-family: 'Inter';
+        border: none;
+    }
+}
+@media (max-width: 600px) {
+    .gender_shop{
+    margin-bottom: 20px;
+
+    }
+    .img img{
+        height: 231px;
+        width: 162px;
+        padding-top: 20px;
+    }
+    .btn-gender {
+        background-color: #d9d9d9;
+        width: 152px;
+        height: 36px;
+        margin-top: 0;
+        font-size: 15px;
+        border-radius: 5px;
+        font-weight: 500;
+        font-style: normal;
+        font-family: 'Inter';
+        border: none;
+    }
+    .btn-gender:hover {
+        background-color: #d9d9d9;
+        width: 152px;
+        height: 36px;
+        margin-top: 0;
+        font-size: 15px;
+        border-radius: 5px;
+        font-weight: 700;
+        font-style: normal;
+        font-family: 'Inter';
+        border: none;
+    }
+}
