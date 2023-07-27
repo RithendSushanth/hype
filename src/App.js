@@ -6,12 +6,12 @@ import ProductListingPage from './Pages/ProductListingPage';
 import OrderHistoryPage from './Pages/OrderHistoryPage';
 import CartPage from './Pages/CartPage';
 import Homepage from './Pages/Homepage';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import {createBrowserRouter,RouterProvider} from "react-router-dom";
+
 
 function App() {
+
+  // Routing
   const router = createBrowserRouter([
     {
       path: "/",
@@ -26,7 +26,7 @@ function App() {
       element: <OrderHistoryPage/>,
     },
     {
-      path: "/products",
+      path: "/products/:gender",
       element: <ProductListingPage/>,
     },
     {
@@ -42,6 +42,9 @@ function App() {
       element: <SigninPage/>,
     },
   ]);
+
+  
+
   return (
     <>
       <RouterProvider router={router} />

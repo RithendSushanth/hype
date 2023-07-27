@@ -1,28 +1,25 @@
-import React from 'react'
-import '../CSS FILES/ProductCard.css'
-import modelimg from '../IMAGES/card_model.png'
+import React from 'react';
+import '../CSS FILES/ProductCard.css';
+import modelimg from '../IMAGES/card_model.png';
 
-export default function ProductCard() {
+export default function ProductCard(props) {
   return (
     <>
+      <div className='product-card'>
+        <div className='product-image'>
+          <img src={modelimg} alt='model' />
+        </div>
 
-        <div className='product-card'>
-            <div className="product-image">
-                <img src={modelimg} alt='model'></img>
-            </div>
+        <div className='product-details'>
+          <div className='product-name'>
+            <p>{props.name}</p> {/* Use props.name instead of props.Name */}
+          </div>
 
-            <div className="product-details">
-                <div className="product-name">
-                    <p>Wide twill trousers</p>
-                </div>
-
-                <div className="product-price">
-                    <p>Rs. 1,299.00</p>
-                </div>
-
-            </div>
-            </div>
-
+          <div className='product-price'>
+            <p>Rs. {props.price}</p> {/* Use props.price instead of props.Price */}
+          </div>
+        </div>
+      </div>
     </>
-  )
+  );
 }
