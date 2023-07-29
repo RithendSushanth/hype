@@ -1,13 +1,20 @@
 import React,{useState} from "react";
 import "./signin.css";
 import { Link, useNavigate } from "react-router-dom";
+import { initializeCart } from "../../store/slices/CartSlice";
+import { initializeWishlist } from "../../store/slices/WishSlice";
+import { useSelector, useDispatch } from 'react-redux';
+import { addUser } from "../../store/slices/UserSlice"; 
+
 
 // Firebase imports (auth)
-import {auth} from "../config/firebase-config";
+import {db, auth} from "../config/firebase-config";
+
 import {createUserWithEmailAndPassword,
-        onAuthStateChanged,
-        signOut,
         signInWithEmailAndPassword} from "firebase/auth";
+
+import { doc, getDoc } from "firebase/firestore";
+
 
 
 export default function Signin() {
@@ -27,11 +34,15 @@ export default function Signin() {
       // Create a user
       const user = await createUserWithEmailAndPassword(auth, email, password);
       console.log(user);
+      navigate("/signin");
     }
     catch(error){
       console.log(error.message)
     }
   }
+
+  // Initialize a dispatch
+  const dispatch = useDispatch();
 
   const login = async() =>{
     // Try to create a user
@@ -40,8 +51,39 @@ export default function Signin() {
       const data = await signInWithEmailAndPassword(auth, email, password);
       console.log(data);
 
+      // Fetch cart and wishlist from db and update teh redux state
+      const userID = data.user.uid
+
+      // Locations
+      const cartRef = doc(db, "Cart",userID)
+      const wishRef = doc(db, "Wishlist",userID)
+
+      // Fetch data
+      let cartDoc = await getDoc(cartRef)
+      let wishDoc = await getDoc(wishRef)
+
+      let cartData = cartDoc.data() // whole document's data
+      let wishData =  wishDoc.data() // whole document's data
+
+      console.log(cartData)
+
+      try{
+        // Dispatch the data (if old user then)
+      dispatch(initializeCart(cartData.cart))
+      dispatch(initializeWishlist(wishData.wishlist))
+      }
+      catch{
+        // Dispatch the data
+      dispatch(initializeCart(cartData))
+      dispatch(initializeWishlist(wishData))
+      }
+      
+
       // If logged in
-      navigate("/products");
+      // Dispatch the data and change redux state
+      dispatch(addUser(data));
+
+      navigate("/");
     }
     catch(error){
       console.log(error.message)
