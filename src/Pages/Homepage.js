@@ -11,20 +11,22 @@ import Footer from '../Components/Footer'
 
 
 // Firebase imports
-import {auth} from "../Components/config/firebase-config"
+import { auth, db } from '../Components/config/firebase-config';
+import { useNavigate, useParams } from 'react-router-dom';
 
-export default function Homepage() {
+export default function Homepage(props) {
 
   useEffect(() => {
     document.title = "Hype - Home";
   }, []);
+
   return (
     <>
       <Navbar opt1='MENS' opt2='WOMENS' opt3='KIDS' signoutButton={false} />
       <Banner/>
       <NightModeToggle/>
-      <GenderStore/>
-      <Cat/>
+      {props.gender?<p></p>:<GenderStore/>}
+      {props.gender?<Cat gender={props.gender}/>:<Cat/>}
       <Videocard/>
       <Newin/>
       <Bestseller/>
