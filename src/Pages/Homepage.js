@@ -8,12 +8,6 @@ import Videocard from '../Components/LANDING PAGE COMPONENTS/JS FILES/Videocard'
 import Newin from '../Components/LANDING PAGE COMPONENTS/JS FILES/Newin'
 import Bestseller from '../Components/LANDING PAGE COMPONENTS/JS FILES/Bestseller'
 import Footer from '../Components/Footer'
-
-
-// Firebase imports
-import { auth, db } from '../Components/config/firebase-config';
-import { useNavigate, useParams } from 'react-router-dom';
-
 export default function Homepage(props) {
 
   useEffect(() => {
@@ -34,3 +28,4 @@ export default function Homepage(props) {
     </>
   )
 }
+

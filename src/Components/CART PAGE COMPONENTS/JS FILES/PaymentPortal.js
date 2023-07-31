@@ -8,11 +8,41 @@ import razorpay from '../IMAGES/razorpaypng 1.png'
 import mastercard from '../IMAGES/mastercard 1.png'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
-import useRazorpay from "react-razorpay";
-
+import { useEffect } from 'react'
+// import axios from 'axios'
+import PaymentGateway from './PaymentGateway' 
 
 
 export default function PaymentPortal() {
+    // Script loading function
+    function loadScript(src) {
+      return new Promise((resolve) => {
+          const script = document.createElement("script");
+          script.src = src;
+          script.onload = () => {
+              resolve(true);
+          };
+          script.onerror = () => {
+              resolve(false);
+          };
+          document.body.appendChild(script);
+      });
+}
+
+  useEffect(() => {
+    async function initializeRazorpay() {
+      const res = await loadScript(
+        "https://checkout.razorpay.com/v1/checkout.js"
+      );
+
+      if (!res) {
+        alert("Razorpay SDK failed to load. Are you online?");
+      }
+    }
+
+    initializeRazorpay();
+  }, []);
+
 
     // Fetching the userID of user logged in
     const userID = useSelector(user => {
@@ -31,8 +61,15 @@ export default function PaymentPortal() {
         let orderValue = cartItems.reduce((sum, item) => sum + item.price, 0);
         let deliveryCost = 150;
         let totalCost = orderValue + deliveryCost;
-        
+        let totalCostInPaisa = totalCost * 100;
 
+        // Object to pass to payment gateway
+        const paymentInfo = {
+          "totalCostInPaisa":totalCostInPaisa,
+          "userID": userID,
+          "cartItems": cartItems,
+        }
+   
   return (
     <div>
         {/* Outer portion of the payment div */}
@@ -70,8 +107,8 @@ export default function PaymentPortal() {
                 </div>
 
                 {/* Holds the checkout button */}
-                <div className="checkout_div">
-                    <div><Link to='/cart'><p>Continue to checkout</p></Link></div>
+                <div className="checkout_div" onClick={() => PaymentGateway(paymentInfo)}>
+                    <div>Continue to checkout</div>
                 </div>
 
                 {/* Holds the payment header and icons */}

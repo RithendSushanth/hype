@@ -5,9 +5,10 @@ import ProductCard from '../Components/PRODUCT LISTING PAGE COMPONENTS/JS FILES/
 import CategoryHeader from '../Components/PRODUCT LISTING PAGE COMPONENTS/JS FILES/CategoryHeader';
 import './ProductListingPage.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import { collection, getDocs, query, where } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { auth, db } from '../Components/config/firebase-config';
+
+import { ref, equalTo, onValue, query } from 'firebase/database'
 
 export default function ProductListingPage() {
   const [products, setProducts] = useState([]);
@@ -16,43 +17,45 @@ export default function ProductListingPage() {
   // Use the useParams hook to get the URL parameters
   const { gender, type } = useParams();
 
-  useEffect(() => {
-    console.log('Filter received:', gender, type);
-    document.title = 'Hype - Products';
-    getProducts();
-  }, [gender, type]);
+  // ...
 
-  // Collection reference
-  const usersCollectionRef = collection(db, 'Products');
+useEffect(() => {
+  console.log('Filter received:', gender, type);
+  document.title = 'Hype - Products';
 
-  // Collection query
-  let filtered_data;
-  filtered_data = query(usersCollectionRef,where("Gender", "==", gender));
-  filtered_data = query(filtered_data,where("Type", "==", type));
+  try {
+    if (gender && type) {
+      // Create a reference to the 'Products'
+      const productsRef = ref(db, '/Products');
 
+      // Fetch all products from the database
+      onValue(productsRef, (snapshot) => {
+        const allProducts = snapshot.val();
 
+        // Filter the products based on gender and type
+        const filteredProducts = Object.values(allProducts).filter((product) => {
+          return product.gender === gender && product.type === type;
+        });
+
+        // Get the number of matching products
+        const dataLength = filteredProducts.length;
+
+        // Update the state with the filtered products and the number of results
+        setProducts(filteredProducts);
+        setNresults(dataLength);
+      });
+    }
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
+}, [gender, type]);
+
+// ...
+
+  
+  // Handles navifation
   const navigate = useNavigate();
 
-  const getProducts = async () => {
-    try {
-      const querySnapshot = await getDocs(filtered_data);
-      const productData = [];
-
-      querySnapshot.forEach((doc) => {
-        const product = {
-          id: doc.id,
-          name: doc.data().Name, // Corrected field name from "Name" to "name"
-          price: doc.data().Price, // Corrected field name from "Price" to "price"
-        };
-        productData.push(product);
-      });
-
-      setProducts(productData);
-      setNresults(querySnapshot.size);
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    }
-  };
 
   const handleSignOut = async () => {
     try {
@@ -70,8 +73,8 @@ export default function ProductListingPage() {
       <CategoryHeader category="Oversized T-shirts" nresults={nresults} />
 
       <div className="product-card-collection">
-        {products.map((product) => (
-          <div key={product.id}>
+        {products.map((product, key) => (
+          <div key={key}>
             <ProductCard name={product.name} price={product.price} type={type}/>
           </div>
         ))}

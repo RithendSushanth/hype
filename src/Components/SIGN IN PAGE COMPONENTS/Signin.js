@@ -15,6 +15,8 @@ import {createUserWithEmailAndPassword,
 
 import { doc, getDoc } from "firebase/firestore";
 
+import {ref, set, onValue} from 'firebase/database';
+
 
 
 export default function Signin() {
@@ -34,6 +36,22 @@ export default function Signin() {
       // Create a user
       const user = await createUserWithEmailAndPassword(auth, email, password);
       console.log(user);
+
+      // Fetch cart and wishlist from db and update teh redux state
+      const userID = user.user.uid
+
+
+      // Initialize user's cart and wishlist in the database
+      const userRef = ref(db, `Users/${userID}`);
+
+      set(userRef, {
+        userID: userID,
+        cart:[],
+        wishlist:[]
+      })
+      
+
+      // Navigate to signin
       navigate("/signin");
     }
     catch(error){
@@ -54,30 +72,16 @@ export default function Signin() {
       // Fetch cart and wishlist from db and update teh redux state
       const userID = data.user.uid
 
-      // Locations
-      const cartRef = doc(db, "Cart",userID)
-      const wishRef = doc(db, "Wishlist",userID)
+      // Read cart data and set Redux State
+      onValue(ref(db, `Users/${userID}`,), (snapshot) =>{
+        const userData = snapshot.val();
+        console.log(userData)
+        dispatch(initializeCart(userData.cart));
+        dispatch(initializeWishlist(userData.wishlist));
+      });
 
-      // Fetch data
-      let cartDoc = await getDoc(cartRef)
-      let wishDoc = await getDoc(wishRef)
-
-      let cartData = cartDoc.data() // whole document's data
-      let wishData =  wishDoc.data() // whole document's data
-
-      console.log(cartData)
-
-      try{
-        // Dispatch the data (if old user then)
-      dispatch(initializeCart(cartData.cart))
-      dispatch(initializeWishlist(wishData.wishlist))
-      }
-      catch{
-        // Dispatch the data
-      dispatch(initializeCart(cartData))
-      dispatch(initializeWishlist(wishData))
-      }
       
+
 
       // If logged in
       // Dispatch the data and change redux state

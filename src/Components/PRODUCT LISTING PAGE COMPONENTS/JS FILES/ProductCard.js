@@ -10,7 +10,7 @@ import {db} from "../../config/firebase-config"
 import { useEffect } from 'react';
 
 // Firebase imports
-import { doc, setDoc } from "firebase/firestore";
+import { ref, set } from 'firebase/database';
 
 export default function ProductCard(props) {
   // Create a dispatch to send data to the config store
@@ -30,23 +30,25 @@ export default function ProductCard(props) {
   
   // Function dispatch props to config store using addToCart which creates a slice
   const handleAddToCart = async() =>{
-    dispatch(addToCart(props))
+    dispatch(addToCart(props));
   } 
+
+  
 
 // Use useEffect to listen for changes in cartItems and update Firestore
     useEffect(() => {
       if (userID) {
-        // Check if cart is empty
-        console.log(cartItems);
-        setDoc(doc(db, 'Cart', userID), { cart: cartItems }).then(() => {
-          // Handle any additional logic or UI updates after Firestore is updated
-        }).catch((error) => {
-          console.error('Error updating Firestore:', error);
-        });
+        // Convert the arrap yo a map
+        const cartItemsMap = cartItems.reduce((acc, item, index) => {
+          acc[index] = item;
+          return acc;
+        }, {})
+
+        // Update the DB
+        set(ref(db, `Users/${userID}/cart`), cartItemsMap)
       }
     }, [userID, cartItems]); // useEffect will be triggered whenever userID or cartItems change
 
-  // 28 july productcard
   // Fetch the wishlist from the global redux state(while signin we are fetching from db and initializing the states with the db data)
    // Function to execute on click of addToWishlist
    const handleAddToWishList = async() =>{
@@ -64,12 +66,15 @@ export default function ProductCard(props) {
 
   useEffect(() => {
     if (userID) {
+      // Convert the arrap yo a map
+      const wishlistMap = wishlist.reduce((acc, item, index) => {
+        acc[index] = item;
+        return acc;
+      }, {})
+
+
     // Sync the DB with redux state
-    setDoc(doc(db, 'Wishlist', userID), { wishlist: wishlist }).then(() => {
-        // Handle any additional logic or UI updates after Firestore is updated
-      }).catch((error) => {
-        console.error('Error updating Firestore:', error);
-      });
+    set(ref(db, `Users/${userID}/wishlist`), wishlistMap)
     }
   }, [userID, wishlist]); // useEffect will be triggered whenever userID or cartItems change
 

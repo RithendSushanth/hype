@@ -4,39 +4,33 @@ import ProductCard from "../../PRODUCT LISTING PAGE COMPONENTS/JS FILES/ProductC
 import "../CSS FILES/newin.css";
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../config/firebase-config';
+import { useEffect } from 'react';
+import { ref, get, onValue } from 'firebase/database'
 
 
 export default function Newin() {
     // Collection reference
-    const usersCollectionRef = collection(db, 'New Ins');
 
-    const [product, setProduct] = useState([]);
+    const [products, setProducts] = useState([]);
   
-    const getNewIns = async () => {
+    useEffect(() =>{
       try {
-        const querySnapshot = await getDocs(usersCollectionRef);
-        const productData = [];
-    
-        querySnapshot.forEach((doc) => {
-          const product = {
-            id: doc.id,
-            name: doc.data().Name, // Corrected field name from "Name" to "name"
-            price: doc.data().Price, // Corrected field name from "Price" to "price"
-            type: doc.data().Type,
-          };
-          productData.push(product);
-        });
-    
-        setProduct(productData);
-      } catch (error) {
-        console.log('Error fetching products:', error);
-      }
-    };
-    
-    
+        onValue(ref(db, "/New_Ins/"), snapshot => {
+          // Fetch the data
+          const data = snapshot.val();
   
-    // Call the getBestsellers function to fetch data
-    getNewIns();
+          console.log(data);
+  
+          // Update the state
+          setProducts(data);
+        })
+      } 
+      catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    }, [])
+    
+    
     
   return (
     <>
@@ -44,9 +38,9 @@ export default function Newin() {
         <h1>New In</h1>
     </div>
       <div className="carousel-cards">
-          {product.map((item) => {
-            <ProductCard name={item.name} price={item.price} type={item.type} />
-          })}
+          {products && products.map((item, index) => (
+            <ProductCard name={item.name} price={item.price} type={item.type} key={index} />
+          ))}
       
       </div>
     </>

@@ -35,8 +35,8 @@ const store = configureStore({
 });
 
 store.subscribe(() => {
-    const { cart, wish } = store.getState();
-    saveToLocalStorage({ cart, wish });
+    const { cart, wish, users } = store.getState();
+    saveToLocalStorage({ cart, wish, users});
   });
 
 export default store;
