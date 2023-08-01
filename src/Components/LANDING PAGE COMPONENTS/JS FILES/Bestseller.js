@@ -1,39 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Imgdes from '../JS FILES/Imgdes';
 import ProductCard from '../../PRODUCT LISTING PAGE COMPONENTS/JS FILES/ProductCard';
 import '../CSS FILES/bestseller.css';
 import { db } from '../../config/firebase-config';
 import { collection, getDocs } from 'firebase/firestore';
 
+import {onValue, ref} from 'firebase/database'
+
 export default function Bestseller() {
-  // Collection reference
-  const usersCollectionRef = collection(db, 'Best Sellers');
+ 
+  const [products, setProducts] = useState([]);
 
-  const [product, setProduct] = useState([]);
-
-  const getBestsellers = async () => {
+  useEffect(() =>{
     try {
-      const querySnapshot = await getDocs(usersCollectionRef);
-      const productData = [];
+      onValue(ref(db, "/Bestsellers/"), snapshot => {
+        // Fetch the data
+        const data = snapshot.val();
 
-      querySnapshot.forEach((doc) => {
-        const product = {
-          id: doc.id,
-          name: doc.data().Name, // Corrected field name from "Name" to "name"
-          price: doc.data().Price, // Corrected field name from "Price" to "price"
-          type: doc.data().Type,
-        };
-        productData.push(product);
-      });
+        console.log(data);
 
-      setProduct(productData);
-    } catch (error) {
+        // Update the state
+        setProducts(data);
+      })
+    } 
+    catch (error) {
       console.error('Error fetching products:', error);
     }
-  };
-
-  // Call the getBestsellers function to fetch data
-  getBestsellers();
+  }, [])
 
   return (
     <>
@@ -42,9 +35,9 @@ export default function Bestseller() {
       </div>
       <div className="carousel-cards">
         {/* Check if product is defined before mapping */}
-        {product &&
-          product.map((item, index) => (
-            <ProductCard name={item.name} type={item.type} price={item.price} key={item.id} />
+        {products &&
+          products.map((item, index) => (
+            <ProductCard name={item.name} type={item.type} price={item.price} key={index} />
           ))}
       </div>
     </>

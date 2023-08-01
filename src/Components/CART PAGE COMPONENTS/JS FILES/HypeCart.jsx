@@ -1,25 +1,17 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { removeFromCart } from '../../../../src/store/slices/CartSlice'
+import { initializeCart } from '../../../../src/store/slices/CartSlice'
 import "../CSS FILES/HypeCart.css";
 import pants from "../IMAGES/pants.png";
 import { useEffect } from "react";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { initializeCart } from "../../../../src/store/slices/CartSlice";
 // Firebase imports
 import { db } from "../../config/firebase-config";
+import { set, ref } from "firebase/database";
 
 const HypeCart = () => {
   
-  
   // Fetch the user's status
-  const userID = useSelector(user => {
-    try{
-      return user.users.users.user.uid
-    }
-    catch{
-      return null
-    }})
+  const userID = useSelector(state => state.users.userID);
 
      // Fetch the statr from config store using useSelector
     const cartItems = useSelector(state => state.cart.cartItems);
@@ -27,23 +19,29 @@ const HypeCart = () => {
   //create a dispatch to update the items of removal of items
   const dispatch = useDispatch();
 
+  const handleRemoveFromCart = (item) =>{
+    // Get index of item to remove
+    const updatedCart = cartItems.filter(element => element !== item)
 
+    dispatch(initializeCart(updatedCart));
 
-  const handleRemoveFromCart = async(item) =>{
-    dispatch(removeFromCart(item));
+    console.log(cartItems)
   }
 
-    // // Use useEffect to listen for changes in cartItems and update Firestore
-    // useEffect(() => {
-    //   if (userID) {
-    //   // Sync the DB with redux state
-    //   setDoc(doc(db, 'Cart', userID), { cart: cartItems }).then(() => {
-    //       // Handle any additional logic or UI updates after Firestore is updated
-    //     }).catch((error) => {
-    //       console.error('Error updating Firestore:', error);
-    //     });
-    //   }
-    // }, [userID, cartItems]); // useEffect will be triggered whenever userID or cartItems change
+    // Use useEffect to listen for changes in cartItems and update Firestore
+    useEffect(() => {
+      if (userID) {
+        console.log(userID)
+        // Convert the array to a map
+        const cartItemsMap = cartItems.reduce((acc, item, index) => {
+          acc[index] = item;
+          return acc;
+        }, {})
+
+        // Update the DB
+        set(ref(db, `Users/${userID}/cart`), cartItemsMap)
+      }
+    }, [userID, cartItems]); // useEffect will be triggered whenever userID or cartItems change
 
   return (
     <>
@@ -89,7 +87,7 @@ const HypeCart = () => {
               <i className="fa-solid fa-angle-down"></i>
             </div>
             <div>
-            <i className="fa-solid fa-xmark" onClick={handleRemoveFromCart}></i>
+            <i className="fa-solid fa-xmark" onClick={() => handleRemoveFromCart(item)}></i>
             </div>
           </div>
         </div>
